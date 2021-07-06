@@ -1,0 +1,26 @@
+<annotation>
+	<folder>containers_resampled</folder>
+	<filename>ctrin119-01-09_18-19-54-63.jpg</filename>
+	<path>/home/mario/DevFinal/My2/serial_id/ctrin119-01-09_18-19-54-63.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>360</width>
+		<height>360</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>serial_id</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>79</xmin>
+			<ymin>4</ymin>
+			<xmax>160</xmax>
+			<ymax>14</ymax>
+		</bndbox>
+	</object>
+</annotation>
