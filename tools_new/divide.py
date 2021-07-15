@@ -24,12 +24,13 @@ output = args["output"]
 
 # Get only base path from input
 input_base = os.path.basename (os.path.normpath (input))
+print(">>>", input_base)
 
-if not os.path.exists (os.path.join (output, "train", input_base)):
-	os.makedirs (os.path.join (output, "train", input_base))
+if not os.path.exists (os.path.join (output, "train")):
+	os.makedirs (os.path.join (output, "train"))
 
-if not os.path.exists (os.path.join (output, "test", input_base)):
-	os.makedirs (os.path.join (output, "test", input_base))
+if not os.path.exists (os.path.join (output, "test")):
+	os.makedirs (os.path.join (output, "test"))
 
 # Returns the number of test images by percentage
 def percentage (percent, whole):
@@ -61,15 +62,15 @@ def divide ():
 	for i in range (test_count):
 		item = images.pop (random.randrange (len (images)))
 		print (item)
-		copyfile (os.path.join (input, item), os.path.join (output, "test", input_base, item))
+		copyfile (os.path.join (input, item), os.path.join (output, "test",  item))
 		item_xml = os.path.splitext (item)[0] + ".xml"
-		copyfile (os.path.join (input, item_xml), os.path.join (output, "test", input_base, item_xml))
+		copyfile (os.path.join (input, item_xml), os.path.join (output, "test",  item_xml))
 
 	# Copy train images
 	for item in images:
 		print (item)
-		copyfile (os.path.join (input, item), os.path.join (output, "train", input_base, item))
+		copyfile (os.path.join (input, item), os.path.join (output, "train", item))
 		item_xml = os.path.splitext (item)[0] + ".xml"
-		copyfile (os.path.join (input, item_xml), os.path.join (output, "train", input_base, item_xml))
+		copyfile (os.path.join (input, item_xml), os.path.join (output, "train", item_xml))
 
 divide ()
