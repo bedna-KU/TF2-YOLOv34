@@ -10,17 +10,16 @@ ap.add_argument ("-t", "--test", type = int, choices = range (1, 100), default =
 	help = "Percent of test images")
 ap.add_argument ("-i", "--input", type = str, required = True,
 	help = "Directory for input images")
-ap.add_argument ("-o", "--output", type = str, required = True,
-	help = "Output directory")
+
 args = vars (ap.parse_args ())
 
 # Args parse
 # Percent of test images
-test = args["test"]
+test_percent = args["test"]
 # Input directory
 input = args["input"]
 # Output directory
-output = args["output"]
+output = "DATASET"
 
 # Get only base path from input
 input_base = os.path.basename (os.path.normpath (input))
@@ -52,7 +51,7 @@ def divide ():
 	# List images in directory
 	images = read_images_in_dir (input)
 	# Count of images for test
-	test_count = percentage (test, len (images))
+	test_count = percentage (test_percent, len (images))
 
 	# If images for test is lower than one set one
 	if test_count < 1:

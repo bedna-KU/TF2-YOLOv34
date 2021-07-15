@@ -24,16 +24,16 @@ input = args["input"]
 # Output directory
 output = args["output"]
 
-def xml_to_csv(path):
-    xml_list = []
-    for xml_file in glob.glob(path + '/*.xml'):
-        tree = ET.parse(xml_file)
-        root = tree.getroot()
-        for member in root.findall('object'):
-            value = root.find('name').text
+# def xml_to_csv(path):
+#     xml_list = []
+#     for xml_file in glob.glob(path + '/*.xml'):
+#         tree = ET.parse(xml_file)
+#         root = tree.getroot()
+#         for member in root.findall('object'):
+#             value = root.find('name').text
 
-print(value)
-exit("EXIT")
+# print(value)
+# exit("EXIT")
 
 # Get only base path from input
 print("input", input)
@@ -46,9 +46,12 @@ if not os.path.exists (os.path.join (output, "train", input_base)):
 if not os.path.exists (os.path.join (output, "test", input_base)):
 	os.makedirs (os.path.join (output, "test", input_base))
 
+def printr(data):
+	print(data, end = "\r", flush = True)
+
 # Returns the number of test images by percentage
 def percentage (percent, whole):
-  return int ((percent * whole) / 100.0)
+	return int ((percent * whole) / 100.0)
 
 # Read only images in directory
 def read_images_in_dir (path):
@@ -70,25 +73,30 @@ def divide ():
 
 	# Count of images for test
 	test_count = percentage (test, len (images))
+	print(">>> test_count", test_count)
+	# print()
 
 	# If images for test is lower than one set one
 	if test_count < 1:
 		test_count = 1
 
-	print(">>>", test_count)
 	# Random copy test images
 	for i in range (test_count):
 		item = images.pop (random.randrange (len (images)))
-		print (item)
+		printr (item)
 		copyfile (os.path.join (input, item), os.path.join (output, "test", input_base, item))
 		item_xml = os.path.splitext (item)[0] + ".xml"
 		copyfile (os.path.join (input, item_xml), os.path.join (output, "test", input_base, item_xml))
+	print()
 
+	print(">>> train_count", len(images))
+	# print()
 	# Copy train images
 	for item in images:
-		print (item)
+		printr (item)
 		copyfile (os.path.join (input, item), os.path.join (output, "train", input_base, item))
 		item_xml = os.path.splitext (item)[0] + ".xml"
 		copyfile (os.path.join (input, item_xml), os.path.join (output, "train", input_base, item_xml))
+	print()
 
 divide ()
