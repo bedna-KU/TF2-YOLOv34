@@ -8,7 +8,7 @@ Install requirements and download pretrained weights:
 ```
 pip install -r ./requirements.txt
 ```
-### Load learmed weights
+### Download learned weights
 
 ```
 # yolov3
@@ -43,7 +43,7 @@ Here you will find the files:
 
 ### Run training
 ```python
-python3 tools/XML_to_YOLOv3.py
+python3 train.py
 ```
 ### Detect objects in image
 ```python
