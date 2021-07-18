@@ -12,24 +12,23 @@ import xml.etree.ElementTree as ET
 import os
 import glob
 
-foldername = os.path.basename(os.getcwd())
-if foldername == "tools": os.chdir("..")
-
-
-data_dir = '/custom_dataset/'
-Dataset_names_path = "model_data/license_plate_names.txt"
-Dataset_train = "model_data/license_plate_train.txt"
-Dataset_test = "model_data/license_plate_test.txt"
+data_dir = 'DATASET/'
+Dataset_names_path = "DATASET/list.names"
+Dataset_train = "DATASET/list_train.txt"
+Dataset_test = "DATASET/list_test.txt"
 is_subfolder = False
 
 Dataset_names = []
-      
+
+def printr(data):
+	print(data, end = "\r", flush = True)
+
 def ParseXML(img_folder, file):
-    for xml_file in glob.glob(img_folder+'/*.xml'):
+    for xml_file in glob.glob(img_folder + '/*.xml'):
         tree=ET.parse(open(xml_file))
         root = tree.getroot()
         image_name = root.find('filename').text
-        img_path = img_folder+'/'+image_name
+        img_path = img_folder + '/' + image_name
         for i, obj in enumerate(root.iter('object')):
             difficult = obj.find('difficult').text
             cls = obj.find('name').text
@@ -37,20 +36,21 @@ def ParseXML(img_folder, file):
                 Dataset_names.append(cls)
             cls_id = Dataset_names.index(cls)
             xmlbox = obj.find('bndbox')
-            OBJECT = (str(int(float(xmlbox.find('xmin').text)))+','
-                      +str(int(float(xmlbox.find('ymin').text)))+','
-                      +str(int(float(xmlbox.find('xmax').text)))+','
-                      +str(int(float(xmlbox.find('ymax').text)))+','
-                      +str(cls_id))
-            img_path += ' '+OBJECT
+            OBJECT = (str(int(float(xmlbox.find('xmin').text))) + ','
+                      + str(int(float(xmlbox.find('ymin').text))) + ','
+                      + str(int(float(xmlbox.find('xmax').text))) + ','
+                      + str(int(float(xmlbox.find('ymax').text))) + ','
+                      + str(cls_id))
+            img_path += ' ' + OBJECT
         print(img_path)
-        file.write(img_path+'\n')
+        file.write(img_path + '\n')
 
 def run_XML_to_YOLOv3():
-    for i, folder in enumerate(['train','test']):
-        with open([Dataset_train,Dataset_test][i], "w") as file:
-            print(os.getcwd()+data_dir+folder)
-            img_path = os.path.join(os.getcwd()+data_dir+folder)
+    # print("***")
+    for i, folder in enumerate(['train', 'test']):
+        # print(">>>", folder)
+        with open([Dataset_train, Dataset_test][i], "w") as file:
+            img_path = os.path.join(os.getcwd(), data_dir, folder)
             if is_subfolder:
                 for directory in os.listdir(img_path):
                     xml_path = os.path.join(img_path, directory)
@@ -58,9 +58,9 @@ def run_XML_to_YOLOv3():
             else:
                 ParseXML(img_path, file)
 
-    print("Dataset_names:", Dataset_names)
+    print(">>> Dataset_names:", Dataset_names)
     with open(Dataset_names_path, "w") as file:
         for name in Dataset_names:
-            file.write(str(name)+'\n')
+            file.write(str(name) + '\n')
 
 run_XML_to_YOLOv3()
